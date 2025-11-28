@@ -1,0 +1,20 @@
+<DialogueData>
+
+    <DialogueSet id="greeting">
+        <Line speaker="NPC">Hello there, traveler!</Line>
+        <Line speaker="Player">Hi!</Line>
+        <Line speaker="NPC">Nice day, isn’t it?</Line>
+    </DialogueSet>
+
+    <DialogueSet id="quest_start">
+        <Line speaker="NPC">Can you help me gather herbs?</Line>
+    </DialogueSet>
+
+    <DialogueSet id="introduction">
+        <Line speaker="КОЛЛЕКТОР">Привет землянин. Вынуждена оповестить что ваша подписка на космическое пронстранство закончилась.</Line>
+        <Line speaker="КОЛЛЕКТОР">И по закону о межгалактическом развитии цивилизаций планета Земля должна была перестать функционировать примерно две недели назад</Line>
+        <Line speaker="КОЛЛЕКТОР">уступив место новым мирам и формам жизни. </Line>
+        <Line speaker="КОЛЛЕКТОР">Однако вы не освободили место и за нелегальное время прибывания успела накапать пеня.</Line>
+    </DialogueSet>
+
+</DialogueData>

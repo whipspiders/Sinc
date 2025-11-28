@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
         dayCounterTMP.text = $"День {dayCounter.ToString()}";
         appearances = 0;
         storedNPC = npcs[Random.Range(0, npcs.Length-1)];
-        npcController.SpawnNPC(storedNPC, storedNPC.hiDialogues);
+        npcController.SpawnNPC(storedNPC, storedNPC.dialoguesFirstSet);
         appearances++;
         Debug.Log(storedNPC + "appearances count:" + appearances);
     }
@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
     {
         uiController.dialogueWindow.ToggleWindow(true);
         uiController.miniGameWindow.ToggleWindow(false);
-        npcController.SpawnNPC(storedNPC, storedNPC.byeDialogues);
+        npcController.SpawnNPC(storedNPC, storedNPC.dialoguesSecondSet);
         appearances++;
         Debug.Log(storedNPC + "appearances count:" + appearances);
         Debug.Log("Ending minigame");

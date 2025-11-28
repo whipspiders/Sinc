@@ -13,7 +13,9 @@ public class NPCController : MonoBehaviour
         dialogueController.SetName(npc.npcName);
         dialogueController.dialogueSet = dialogue;
 
-        dialogueController.PrintLine(0);
+        dialogueController.StartDialogue(npc, "quest_end");
+
+        //dialogueController.PrintLine(0);
     }
 
     public virtual void DespawnNpc(NPC npc)

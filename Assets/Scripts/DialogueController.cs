@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +12,15 @@ public class DialogueController : MonoBehaviour
     private int index;
     bool dialogueActive;
     public UnityEvent endDialogue;
+
+    //__________________________________________
+
+
+    private Queue<DialogueLine> dialogueQueue;
+    private NPC currentNPC;
+
+
+    //__________________________________________
 
     public void SetName(string context)
     {
@@ -40,18 +50,7 @@ public class DialogueController : MonoBehaviour
     void OnMouseDown()
     {
         print("click");
-        if (dialogueActive)
-        {
-            if (index == dialogueSet.Length - 1)
-            {
-                EndDialogue();
-            }
-            else
-            {
-                index++;
-                PrintLine(index);
-            }
-        }
+        ShowNextLine();
     }
 
     public void EndDialogue()
@@ -71,4 +70,47 @@ public class DialogueController : MonoBehaviour
         index = 0;
     }
 
+
+
+
+
+
+
+
+//_____________________________________XML parser Ver_____________________________________________________
+
+
+
+  public void StartDialogue(NPC npc, string setId)
+    {
+        currentNPC = npc;
+
+        List<DialogueLine> lines = DialogueParser.ParseDialogue(npc.dialogueXML, setId);
+
+        dialogueQueue = new Queue<DialogueLine>(lines);
+
+        ShowNextLine();
+    }
+
+    public void ShowNextLine()
+    {
+        if (dialogueQueue.Count == 0)
+        {
+            EndDialogue();
+            return;
+        }
+
+        DialogueLine line = dialogueQueue.Dequeue();
+
+        // ⬇️ UPDATE UI
+        nameBox.text = line.speaker;
+        dialogueBox.text = line.text;
+    }
+
+    //private void EndDialogue()
+    //{
+        //nameBox.text = "";
+        //dialogueBox.text = "";
+        //Debug.Log("Dialogue finished.");
+    //}
 }

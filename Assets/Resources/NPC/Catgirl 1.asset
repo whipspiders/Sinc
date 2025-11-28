@@ -14,11 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcSprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   npcName: Evil catgirl
-  hiDialogues:
-  - This is the first line
-  - This is the second line
-  - This is the third line
-  byeDialogues:
-  - Line after mini-game
-  - Second line after mini-game
-  - Third line after mini-game
+  dialogueXML: {fileID: 0}
+  dialoguesFirstSet:
+  - 
+  dialoguesSecondSet:
+  - 
