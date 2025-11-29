@@ -1,0 +1,8 @@
+<DialogueData>
+    <DialogueSet id="introduction">
+        <Line speaker=" ">На земле раньше люди приручивали кошек, а не наоборот.</Line>
+        <Line speaker=" ">Ну вы не так сильно и удивлены.</Line>
+        <Line speaker=" ">(Стук в дверь)</Line>
+    </DialogueSet>
+
+</DialogueData>
