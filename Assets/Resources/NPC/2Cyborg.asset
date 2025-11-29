@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92ff45ffee2516a47aa9b16bef950fa6, type: 3}
+  m_Name: 2Cyborg
+  m_EditorClassIdentifier: 
+  npcSprite: {fileID: -836943134604815896, guid: 90afea8b9f712df4c81683001e76b23d, type: 3}
+  npcName: Cyborg
+  dialogueXML: {fileID: 4900000, guid: b17c42877d659d0479e5bbfac7fc1190, type: 3}
+  dialoguesFirstSet:
+  - 
+  dialoguesSecondSet:
+  - 

@@ -1,0 +1,9 @@
+<DialogueData>
+    <DialogueSet id="introduction">
+        <Line speaker=" ">Скоро ночь, пора закрываться. </Line>
+        <Line speaker=" ">Грохот. На улицу падает летающая тарелка. Стук в дверь.</Line>
+        <Line speaker="ГГ">Здаствуйте, вам чем-то помочь?</Line>
+        <Line speaker="ГГ">...</Line>
+    </DialogueSet>
+
+</DialogueData>

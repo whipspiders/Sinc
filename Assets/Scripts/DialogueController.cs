@@ -8,85 +8,23 @@ public class DialogueController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameBox;
     [SerializeField] private TextMeshProUGUI dialogueBox;
-    public string[] dialogueSet;
-    private int index;
-    bool dialogueActive;
-    public UnityEvent endDialogue;
 
-    //__________________________________________
-
+    public UnityEvent onDialogueEnd; // GameController listens to this
 
     private Queue<DialogueLine> dialogueQueue;
-    private NPC currentNPC;
+    private bool isTyping = false;
+    private string currentFullLine = "";
+    private Coroutine typingCoroutine;
 
+    public float typingSpeed = 0.03f;
 
-    //__________________________________________
+    private bool minigame = false;
 
-    public void SetName(string context)
+    public void StartDialogue(NPC npc, string setId, bool minigame)
     {
-        nameBox.text = context;
-    }
-    public void PrintLine(int index)
-    {
-        dialogueActive = true;
-        ToggleDialogue(true);
-        dialogueBox.text = dialogueSet[index];
-    }
-    IEnumerator TypeLine(string line)
-    {
-        foreach (char c in line)
-        {
-            dialogueBox.text += c;
-            yield return new WaitForSeconds(0.05f);
-        }
-    }
-
-    public void ToggleDialogue(bool value)
-    {
-        Debug.Log($"Toggled dialogue to {value}");
-        nameBox.gameObject.SetActive(value);
-        dialogueBox.gameObject.SetActive(value);
-    }
-    void OnMouseDown()
-    {
-        print("click");
-        ShowNextLine();
-    }
-
-    public void EndDialogue()
-    {
-        Debug.Log("Ended dialogue");
-        ToggleDialogue(false);
-        dialogueActive = false;
-        index = 0;
-        endDialogue.Invoke();
-    }
-
-    public void EndDialogueNoEvent()
-    {
-        Debug.Log("Ended dialogue without triggering event");
-        ToggleDialogue(false);
-        dialogueActive = false;
-        index = 0;
-    }
-
-
-
-
-
-
-
-
-//_____________________________________XML parser Ver_____________________________________________________
-
-
-
-  public void StartDialogue(NPC npc, string setId)
-    {
-        currentNPC = npc;
+        this.minigame = minigame;
 
         List<DialogueLine> lines = DialogueParser.ParseDialogue(npc.dialogueXML, setId);
-
         dialogueQueue = new Queue<DialogueLine>(lines);
 
         ShowNextLine();
@@ -101,16 +39,50 @@ public class DialogueController : MonoBehaviour
         }
 
         DialogueLine line = dialogueQueue.Dequeue();
-
-        // ⬇️ UPDATE UI
         nameBox.text = line.speaker;
-        dialogueBox.text = line.text;
+
+        currentFullLine = line.text;
+
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        typingCoroutine = StartCoroutine(TypeLine(line.text));
     }
 
-    //private void EndDialogue()
-    //{
-        //nameBox.text = "";
-        //dialogueBox.text = "";
-        //Debug.Log("Dialogue finished.");
-    //}
+    private IEnumerator TypeLine(string text)
+    {
+        isTyping = true;
+        dialogueBox.text = "";
+
+        foreach (char c in text)
+        {
+            dialogueBox.text += c;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+    }
+
+    // Clicking anywhere on dialogue box collider
+    private void OnMouseDown()
+    {
+        if (isTyping)
+        {
+            StopCoroutine(typingCoroutine);
+            dialogueBox.text = currentFullLine;
+            isTyping = false;
+        }
+        else
+        {
+            ShowNextLine();
+        }
+    }
+
+    private void EndDialogue()
+    {
+        nameBox.text = "";
+        dialogueBox.text = "";
+
+        onDialogueEnd.Invoke();
+    }
 }
