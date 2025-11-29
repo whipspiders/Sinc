@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class GameController : MonoBehaviour
     {
         NONE,
         START_MINIGAME,
-        RESPAWN_NPC
+        RESPAWN_NPC,
+        GAME_END,
+        MAIN_MENU
     }
 
     private struct DialogueResult
@@ -52,7 +55,10 @@ public class GameController : MonoBehaviour
         dialogueController.onDialogueEnd.AddListener(OnDialogueEnded);
 
         // CUTSCENE
-        StartNPC(0, "introduction");
+        StartNPC(1, "introduction");
+        NPCNext(1, "introduction", 3f);
+        NPCMinigame();
+        NPCNext(1, "post-surgery", 0f);
 
         // FIRST DAY _______________________________________________________________________________________
         //CYBORG
@@ -60,19 +66,14 @@ public class GameController : MonoBehaviour
         NPCMinigame();
         NPCNext(2, "post-surgery", 0f);
 
-        //COLLECTOR
-        NPCNext(1, "introduction", 3f);
-
-
-        NextDay();
-        // SECOND DAY _______________________________________________________________________________________
+        GameEnd();
 
 
     }
 
     void NextDay()
     {
-        
+
     }
 
     void NPCEnd()
@@ -87,12 +88,12 @@ public class GameController : MonoBehaviour
         resultQueue = new Queue<DialogueResult>(list);
     }
 
-    void NPCMinigame()
+    public void NPCMinigame()
     {
         resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.START_MINIGAME));
     }
 
-    void NPCNext(int npcIndex, string dialogueSet, float delay)
+    public void NPCNext(int npcIndex, string dialogueSet, float delay)
     {
         resultQueue.Enqueue(new DialogueResult(
             NEXT_ACTION.RESPAWN_NPC,
@@ -102,7 +103,7 @@ public class GameController : MonoBehaviour
         ));
     }
 
-    void StartNPC(int index, string dialogueSet)
+    public void StartNPC(int index, string dialogueSet)
     {
         activeNPC = index;
         npcController.SpawnNPC(npcs[index], false, dialogueSet);
@@ -146,12 +147,13 @@ public class GameController : MonoBehaviour
         miniGameController.StartGame();
     }
 
-    public virtual void EndMinigame()
+    public virtual void Continue()
     {
         uiController.dialogueWindow.ToggleWindow(true);
         uiController.miniGameWindow.ToggleWindow(false);
 
         miniGameController.End();
+    }
 
         // Inject NPC respawn as the NEXT action (highest priority)
         // InsertNextResultAtFront(
@@ -162,5 +164,22 @@ public class GameController : MonoBehaviour
         //         0f
         //     )
         // );
+
+    public void GameEnd()
+    {
+        resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.GAME_END));
+        Debug.Log("The game should end here");
+    }
+
+    public void LoadMenu()
+    {
+        resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.MAIN_MENU));
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
+        public virtual void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }
