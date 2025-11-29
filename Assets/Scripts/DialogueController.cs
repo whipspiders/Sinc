@@ -18,11 +18,8 @@ public class DialogueController : MonoBehaviour
 
     public float typingSpeed = 0.03f;
 
-    private bool minigame = false;
-
-    public void StartDialogue(NPC npc, string setId, bool minigame)
+    public void StartDialogue(NPC npc, string setId)
     {
-        this.minigame = minigame;
 
         List<DialogueLine> lines = DialogueParser.ParseDialogue(npc.dialogueXML, setId);
         dialogueQueue = new Queue<DialogueLine>(lines);

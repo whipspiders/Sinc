@@ -1,27 +1,27 @@
-using UnityEngine;
-using UnityEngine.UI;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-public class NPCController : MonoBehaviour
-{
-    [SerializeField] private Image npcImage;
-    [SerializeField] private DialogueController dialogueController;
-
-    public void SpawnNPC(NPC npc, bool minigame, string dialogueSet)
+    public class NPCController : MonoBehaviour
     {
-        npcImage.gameObject.SetActive(true);
-        npcImage.sprite = npc.npcSprite;
+        [SerializeField] private Image npcImage;
+        [SerializeField] private DialogueController dialogueController;
 
-        dialogueController.StartDialogue(npc, dialogueSet, minigame);
-    }
+        public void SpawnNPC(NPC npc, string dialogueSet)
+        {
+            npcImage.gameObject.SetActive(true);
+            npcImage.sprite = npc.npcSprite;
 
-    public void DespawnNPC()
-    {
-        npcImage.gameObject.SetActive(false);
-    }
+            dialogueController.StartDialogue(npc, dialogueSet);
+        }
 
-    // NEW — allows GameController to change NPC sprite at any moment
-    public void ChangeNPCSprite(Sprite newSprite)
-    {
-        npcImage.sprite = newSprite;
+        public void DespawnNPC()
+        {
+            npcImage.gameObject.SetActive(false);
+        }
+
+        // NEW — allows GameController to change NPC sprite at any moment
+        public void ChangeNPCSprite(Sprite newSprite)
+        {
+            npcImage.sprite = newSprite;
+        }
     }
-}

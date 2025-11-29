@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI blackoutTMPAsset;
     [SerializeField] private SpriteRenderer backgroundDef;
     [SerializeField] private Sprite backgroundEnd;
+    
 
     private int dayCounter = 1;
 
@@ -71,19 +72,74 @@ public class GameController : MonoBehaviour
     {
         dialogueController.onDialogueEnd.AddListener(OnDialogueEnded);
 
-        // CUTSCENE
+// CUTSCENE
         Fade(blackout, 0);
+
+        //_______________//CUTSCENE
         StartNPC(0, "introduction");
 
         // FIRST DAY _______________________________________________________________________________________
 
         // COLLECTOR 
-        NPCNext(2, "introduction", 3f);
+        NPCNext(1, "introduction", 1f, "normal");
         NPCMinigame();
-        NPCNext(2, "post-surgery", 0f, npcs[activeNPC].postSurgerySprite);
+        NPCNext(1, "post-surgery", 0f, "post-surgery");
+
+        //_______________//CUTSCENE
+        NPCNext(0, "inbeetwin_collector_cyborg", 1f, "normal");
+
+        //CYBORG
+        NPCNext(2, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(2, "post-surgery", 0f, "post-surgery");
+
+        //_______________//CUTSCENE
+        NPCNext(0, "inbeetwin_cyborg_bird", 1f, "normal");
+
+        //BIRD
+        NPCNext(3, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(3, "post-surgery", 0f, "post-surgery");
+
+        //DAY END
+
+        NextDay();
+
+        // SECOND DAY _______________________________________________________________________________________
+
+        //CHEST
+        NPCNext(4, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(4, "post-surgery", 0f, "post-surgery");
+
+        //HEART
+        NPCNext(5, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(5, "post-surgery", 0f, "post-surgery");
+
+
+        //IMPLANT
+        NPCNext(6, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(6, "post-surgery", 0f, "post-surgery");
+
+        NextDay();
+
+        // THIRD DAY _______________________________________________________________________________________
+
+        //HEAD
+        NPCNext(7, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(7, "post-surgery", 0f, "post-surgery");
+        //CENTAUR
+        NPCNext(8, "introduction", 1f, "normal");
+        NPCMinigame();
+        NPCNext(8, "post-surgery", 0f, "post-surgery");
+
+        NextDay();
 
         //END CUTSCENE
-        NPCNext(1, "ending", 1f);
+        NPCNext(1, "ending", 1f, "normal");
 
         GameEnd();
     }
@@ -106,13 +162,20 @@ public class GameController : MonoBehaviour
     }
 
     // ORIGINAL
-    public void NPCNext(int npcIndex, string dialogueSet, float delay)
+    public void NPCNext(int npcIndex, string dialogueSet, float delay, string spriteType)
     {
+        Sprite chosenSprite = null;
+        if (spriteType == "normal")
+            chosenSprite = npcs[npcIndex].npcSprite;
+        if (spriteType == "post-surgery")
+            chosenSprite = npcs[npcIndex].postSurgerySprite;
+
         resultQueue.Enqueue(new DialogueResult(
             NEXT_ACTION.RESPAWN_NPC,
             npcIndex,
             dialogueSet,
-            delay
+            delay,
+            chosenSprite
         ));
     }
 
@@ -131,7 +194,7 @@ public class GameController : MonoBehaviour
     public void StartNPC(int index, string dialogueSet)
     {
         activeNPC = index;
-        npcController.SpawnNPC(npcs[index], false, dialogueSet);
+        npcController.SpawnNPC(npcs[index], dialogueSet);
     }
 
     private void OnDialogueEnded()
