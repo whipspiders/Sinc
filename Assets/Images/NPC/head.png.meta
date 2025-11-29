@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 90afea8b9f712df4c81683001e76b23d
+guid: b625ce5cf2e8cbe499ed7dfb9b831169
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -836943134604815896
-    second: cyborg_0
+      213: 6943535168657398750
+    second: head_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -73,7 +73,7 @@ TextureImporter:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 1
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 50
@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cyborg_0
+      name: head_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8e19da447a49264f0800000000000000
-      internalID: -836943134604815896
+      spriteID: edb914d82746c5060800000000000000
+      internalID: 6943535168657398750
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 66e6418f75eb2214b904362c35e1639f
+    spriteID: 60feb7e3de394004da89755130c826f6
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cyborg_0: -836943134604815896
+      head_0: 6943535168657398750
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

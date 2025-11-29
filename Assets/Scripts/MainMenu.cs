@@ -5,7 +5,13 @@ using DG.Tweening;
 
 public class MenuText : MonoBehaviour
 {
-    private TextMeshProUGUI tmpAsset => gameObject.GetComponent<TextMeshProUGUI>();
+    [SerializeField] private GameObject menuBlackout;
+    [SerializeField] private TextMeshProUGUI tmpAsset;
+
+    void Start()
+    {
+        menuBlackout.transform.DOScaleX(0, 0.05f);
+    }
     void Update()
     {
         if (Input.anyKeyDown)

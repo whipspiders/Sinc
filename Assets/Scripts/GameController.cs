@@ -4,6 +4,8 @@ using System.Linq;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
 {
@@ -12,6 +14,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private NPCController npcController;
     [SerializeField] private DialogueController dialogueController;
     [SerializeField] private MiniGameController miniGameController;
+    [SerializeField] private GameObject blackout;
+
+    [SerializeField] private TextMeshProUGUI blackoutTMPAsset;
+    [SerializeField] private SpriteRenderer backgroundDef;
+    [SerializeField] private Sprite backgroundEnd;
+
+    private int dayCounter = 1;
 
     private NPC[] npcs;
     private int activeNPC;
@@ -19,11 +28,10 @@ public class GameController : MonoBehaviour
     // ===== QUEUE SYSTEM =====
     private enum NEXT_ACTION
     {
-        NONE,
         START_MINIGAME,
         RESPAWN_NPC,
         GAME_END,
-        MAIN_MENU
+        NEXT_DAY
     }
 
     private struct DialogueResult
@@ -33,12 +41,21 @@ public class GameController : MonoBehaviour
         public string dialogueSet;
         public float delay;
 
-        public DialogueResult(NEXT_ACTION action, int npcIndex = -1, string dialogueSet = "introduction", float delay = 0)
+        // NEW — optional sprite override
+        public Sprite overrideSprite;
+
+        public DialogueResult(
+            NEXT_ACTION action,
+            int npcIndex = -1,
+            string dialogueSet = "introduction",
+            float delay = 0,
+            Sprite overrideSprite = null)
         {
             this.action = action;
             this.npcIndex = npcIndex;
             this.dialogueSet = dialogueSet;
             this.delay = delay;
+            this.overrideSprite = overrideSprite;
         }
     }
 
@@ -55,30 +72,25 @@ public class GameController : MonoBehaviour
         dialogueController.onDialogueEnd.AddListener(OnDialogueEnded);
 
         // CUTSCENE
-        StartNPC(1, "introduction");
-        NPCNext(1, "introduction", 3f);
-        NPCMinigame();
-        NPCNext(1, "post-surgery", 0f);
+        Fade(blackout, 0);
+        StartNPC(0, "introduction");
 
         // FIRST DAY _______________________________________________________________________________________
-        //CYBORG
-        NPCNext(2, "introduction", 1f);
+
+        // COLLECTOR 
+        NPCNext(2, "introduction", 3f);
         NPCMinigame();
-        NPCNext(2, "post-surgery", 0f);
+        NPCNext(2, "post-surgery", 0f, npcs[activeNPC].postSurgerySprite);
+
+        //END CUTSCENE
+        NPCNext(1, "ending", 1f);
 
         GameEnd();
-
-
     }
 
     void NextDay()
     {
-
-    }
-
-    void NPCEnd()
-    {
-        resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.NONE));
+        resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.NEXT_DAY));
     }
 
     void InsertNextResultAtFront(DialogueResult result)
@@ -93,6 +105,7 @@ public class GameController : MonoBehaviour
         resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.START_MINIGAME));
     }
 
+    // ORIGINAL
     public void NPCNext(int npcIndex, string dialogueSet, float delay)
     {
         resultQueue.Enqueue(new DialogueResult(
@@ -103,11 +116,24 @@ public class GameController : MonoBehaviour
         ));
     }
 
+    // NEW — NPCNext WITH SPRITE CHANGE
+    public void NPCNext(int npcIndex, string dialogueSet, float delay, Sprite newSprite)
+    {
+        resultQueue.Enqueue(new DialogueResult(
+            NEXT_ACTION.RESPAWN_NPC,
+            npcIndex,
+            dialogueSet,
+            delay,
+            newSprite
+        ));
+    }
+
     public void StartNPC(int index, string dialogueSet)
     {
         activeNPC = index;
         npcController.SpawnNPC(npcs[index], false, dialogueSet);
     }
+
     private void OnDialogueEnded()
     {
         if (resultQueue.Count == 0)
@@ -124,10 +150,6 @@ public class GameController : MonoBehaviour
     {
         switch (result.action)
         {
-            case NEXT_ACTION.NONE:
-                npcController.DespawnNPC();
-                yield break;
-
             case NEXT_ACTION.START_MINIGAME:
                 StartMinigame();
                 yield break;
@@ -135,7 +157,43 @@ public class GameController : MonoBehaviour
             case NEXT_ACTION.RESPAWN_NPC:
                 npcController.DespawnNPC();
                 yield return new WaitForSeconds(result.delay);
+
                 StartNPC(result.npcIndex, result.dialogueSet);
+
+                // NEW — apply sprite override if provided
+                if (result.overrideSprite != null)
+                    npcController.ChangeNPCSprite(result.overrideSprite);
+
+                yield break;
+
+            case NEXT_ACTION.GAME_END:
+                npcController.DespawnNPC();
+                Fade(blackout, 1);
+                yield return new WaitForSeconds(0.5f);
+                SceneManager.LoadScene("MainMenu");
+                yield break;
+
+            case NEXT_ACTION.NEXT_DAY:
+                npcController.DespawnNPC();
+                Fade(blackout, 1);
+                dayCounter++;
+                dayCounterTMP.text = "Day " + dayCounter.ToString();
+
+                StartCoroutine(dialogueController.TypeLineExternal("Day " + dayCounter.ToString(), blackoutTMPAsset));
+
+                if (dayCounter > 3)
+                {
+                    dayCounterTMP.text = "...";
+                    backgroundDef.sprite = backgroundEnd;
+                }
+                yield return new WaitForSeconds(2f);
+                Fade(blackout, 0);
+                blackoutTMPAsset.text = "";
+                if (resultQueue.Count > 0)
+                {
+                    DialogueResult next = resultQueue.Dequeue();
+                    yield return StartCoroutine(HandleDialogueResult(next));
+                }
                 yield break;
         }
     }
@@ -144,42 +202,40 @@ public class GameController : MonoBehaviour
     {
         uiController.dialogueWindow.ToggleWindow(false);
         uiController.miniGameWindow.ToggleWindow(true);
+        Fade(uiController.miniGameWindow.gameObject, 1);
+        Fade(miniGameController.miniGameContainer, 1);
         miniGameController.StartGame();
     }
 
     public virtual void Continue()
     {
         uiController.dialogueWindow.ToggleWindow(true);
-        uiController.miniGameWindow.ToggleWindow(false);
-
+        Fade(uiController.miniGameWindow.gameObject, 0);
+        Fade(miniGameController.miniGameContainer, 0);
         miniGameController.End();
     }
-
-        // Inject NPC respawn as the NEXT action (highest priority)
-        // InsertNextResultAtFront(
-        //     new DialogueResult(
-        //         NEXT_ACTION.RESPAWN_NPC,
-        //         activeNPC,
-        //         "post-surgery",
-        //         0f
-        //     )
-        // );
 
     public void GameEnd()
     {
         resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.GAME_END));
-        Debug.Log("The game should end here");
     }
 
-    public void LoadMenu()
-    {
-        resultQueue.Enqueue(new DialogueResult(NEXT_ACTION.MAIN_MENU));
-        SceneManager.LoadScene("MainMenu");
-    }
-
-
-        public virtual void GameOver()
+    public virtual void GameOver()
     {
         SceneManager.LoadScene("GameOver");
+    }
+
+    void FullFade(GameObject gameObject, float duration = 0.05f)
+    {
+        Sequence fullFade = DOTween.Sequence();
+        fullFade.Append(gameObject.transform.DOScaleX(1, duration));
+        fullFade.Append(gameObject.transform.DOScaleX(0, duration));
+
+        fullFade.Play();
+    }
+
+    public void Fade(GameObject gameObject, int value = 1, float duration = 0.05f)
+    {
+        gameObject.transform.DOScaleX(value, duration);
     }
 }

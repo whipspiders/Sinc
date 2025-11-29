@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e8a6a5ed1bfabb948aa6118e061b9d40
+guid: 2aadcf16f59243b4d80a0fb34399354a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2836829841651097773
-    second: nanoimplant_0
+      213: 5281301854931796324
+    second: centaur_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: nanoimplant_0
+      name: centaur_0
       rect:
         serializedVersion: 2
-        x: 44
+        x: 0
         y: 0
-        width: 83
-        height: 168
+        width: 171
+        height: 202
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: da067d7f5b17e5720800000000000000
-      internalID: 2836829841651097773
+      spriteID: 46142d63e04fa4940800000000000000
+      internalID: 5281301854931796324
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a1dfa66853045ec41881cdf8d37c4f35
     internalID: 0
     vertices: []
     indices: 
@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      centaur_0: 5281301854931796324
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

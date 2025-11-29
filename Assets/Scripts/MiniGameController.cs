@@ -11,15 +11,20 @@ public class MiniGameController : MonoBehaviour
     private Circle circle;
     [SerializeField] private Circle[] circles;
     [SerializeField] private Image progressBar;
-    [SerializeField] private GameObject miniGameContainer;
+    public GameObject miniGameContainer;
     [SerializeField] private TextMeshProUGUI timerTMP;
     [SerializeField] private UnityEvent won;
     [SerializeField] private UnityEvent lost;
     [SerializeField] private Slider slider;
-    private float gameTimer = 60;
-    private bool onCooldown;
 
+    private float gameTimer;
+    private bool onCooldown;
     private bool win;
+
+    private bool sliderProgressCooldown;
+
+    // 🔥 NEW
+    private bool gameOngoing = false;
 
     void Awake()
     {
@@ -28,51 +33,69 @@ public class MiniGameController : MonoBehaviour
 
     public void StartGame()
     {
+        gameOngoing = true; // 🔥 Start timer
         onCooldown = false;
-        gameTimer = 60;
+        sliderProgressCooldown = false;
+
+        gameTimer = 30;
         win = false;
+
         progressBar.fillAmount = 0;
         miniGameContainer.SetActive(true);
+
         StartCircleGame();
         StartPushGame();
     }
 
+    public virtual void TaskDone(float value = 0.05F)
+    {
+        progressBar.fillAmount += value;
+    }
+
     void Update()
     {
+        // 🔥 Skip whole block if game is not ongoing
+        if (!gameOngoing)
+            return;
+
+        // === TIMER ===
         if (gameTimer > 0)
         {
-
             gameTimer -= Time.deltaTime;
             timerTMP.text = Mathf.Floor(gameTimer).ToString();
 
-            //____________slider game
-                    if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!onCooldown)
+            // --- SPACE pushes slider upward ---
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                StartCoroutine(SlideUp());
+                if (!onCooldown)
+                    StartCoroutine(SlideUp());
             }
-            else
+
+            // --- fill bar while slider > 0.7 ---
+            if (slider.value > 0.7f && !sliderProgressCooldown)
             {
-                Debug.Log("Wait for cooldown to end");
+                StartCoroutine(FillProgressWhileSliderHigh());
             }
-        }
 
-
-            if (progressBar.fillAmount == 1)
+            // --- Win ---
+            if (progressBar.fillAmount >= 1 && !win)
             {
-                won.Invoke();
                 win = true;
+                won.Invoke();
+                End();
             }
         }
-        else { lost.Invoke(); }
+        else
+        {
+            lost.Invoke();
+            End();
+        }
     }
 
     void StartPushGame()
     {
-        InvokeRepeating("SlideDown", 0.1f, 0.1f);
+        InvokeRepeating(nameof(SlideDown), 0.1f, 0.1f);
     }
-
 
     IEnumerator SlideUp()
     {
@@ -81,10 +104,22 @@ public class MiniGameController : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         onCooldown = false;
     }
-        void SlideDown()
+
+    IEnumerator FillProgressWhileSliderHigh()
+    {
+        sliderProgressCooldown = true;
+
+        progressBar.fillAmount += 0.005f;
+
+        yield return new WaitForSeconds(0.1f);
+        sliderProgressCooldown = false;
+    }
+
+    void SlideDown()
     {
         slider.value -= 0.02f;
     }
+
     void StartCircleGame()
     {
         foreach (Circle circle in circles)
@@ -93,18 +128,15 @@ public class MiniGameController : MonoBehaviour
         }
     }
 
-    public virtual void TaskDone(float value = 0.05F)
-    {
-        progressBar.fillAmount += value;
-    }
-
     public void End()
     {
+        gameOngoing = false; // 🔥 Stop timer + input
+
         miniGameContainer.SetActive(false);
+
         foreach (Circle circle in circles)
-        {
             circle.rb.angularVelocity = 0;
-        }
+
         CancelInvoke();
     }
 }

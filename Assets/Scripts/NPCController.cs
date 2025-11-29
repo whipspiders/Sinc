@@ -18,4 +18,10 @@ public class NPCController : MonoBehaviour
     {
         npcImage.gameObject.SetActive(false);
     }
+
+    // NEW — allows GameController to change NPC sprite at any moment
+    public void ChangeNPCSprite(Sprite newSprite)
+    {
+        npcImage.sprite = newSprite;
+    }
 }

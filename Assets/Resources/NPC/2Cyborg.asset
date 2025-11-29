@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ff45ffee2516a47aa9b16bef950fa6, type: 3}
   m_Name: 2Cyborg
   m_EditorClassIdentifier: 
-  npcSprite: {fileID: -836943134604815896, guid: 90afea8b9f712df4c81683001e76b23d, type: 3}
-  npcName: Cyborg
-  dialogueXML: {fileID: 4900000, guid: b17c42877d659d0479e5bbfac7fc1190, type: 3}
-  dialoguesFirstSet:
-  - 
-  dialoguesSecondSet:
-  - 
+  npcSprite: {fileID: 21300000, guid: 90afea8b9f712df4c81683001e76b23d, type: 3}
+  postSurgerySprite: {fileID: 21300000, guid: da03ae9a167120548941131faa81b4d2, type: 3}
+  dialogueXML: {fileID: 4900000, guid: 75d451a3dd4d9c9458e4ce88b72a1d41, type: 3}

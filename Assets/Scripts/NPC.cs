@@ -6,20 +6,9 @@ using UnityEngine;
 public class NPC : ScriptableObject
 {
     public Sprite npcSprite;
-    public string npcName;
+    public Sprite postSurgerySprite;
 
     public TextAsset dialogueXML;
 
-
-    public string[] dialoguesFirstSet =
-    { 
-        ""
-    };
-
-
-    public string[] dialoguesSecondSet =
-    { 
-        ""
-    };
 
 }

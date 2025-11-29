@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92ff45ffee2516a47aa9b16bef950fa6, type: 3}
-  m_Name: 0Cutscene
+  m_Name: 3Birdie
   m_EditorClassIdentifier: 
-  npcSprite: {fileID: 21300000, guid: a74195333030dec40ab445963abe4996, type: 3}
-  postSurgerySprite: {fileID: 0}
+  npcSprite: {fileID: 21300000, guid: 998fd8e38b464d24db28f20e98c606a8, type: 3}
+  postSurgerySprite: {fileID: 21300000, guid: d1333eee18b73c14eb541c1b04a21720, type: 3}
   dialogueXML: {fileID: 4900000, guid: 75d451a3dd4d9c9458e4ce88b72a1d41, type: 3}

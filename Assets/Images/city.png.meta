@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 90afea8b9f712df4c81683001e76b23d
+guid: d99fe6583b32d1241a4b65153188ef36
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -836943134604815896
-    second: cyborg_0
+      213: -1656166294940094332
+    second: city_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -73,7 +73,7 @@ TextureImporter:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-    resizeAlgorithm: 1
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
     compressionQuality: 50
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cyborg_0
+      name: city_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 171
-        height: 202
+        x: 82
+        y: 68
+        width: 318
+        height: 187
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8e19da447a49264f0800000000000000
-      internalID: -836943134604815896
+      spriteID: 480fe1d878d1409e0800000000000000
+      internalID: -1656166294940094332
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 66e6418f75eb2214b904362c35e1639f
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      cyborg_0: -836943134604815896
+      city_0: -1656166294940094332
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

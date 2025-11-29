@@ -63,6 +63,20 @@ public class DialogueController : MonoBehaviour
         isTyping = false;
     }
 
+    public IEnumerator TypeLineExternal(string text, TextMeshProUGUI tmpAsset)
+    {
+        isTyping = true;
+        tmpAsset.text = "";
+
+        foreach (char c in text)
+        {
+            tmpAsset.text += c;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+    }
+
     // Clicking anywhere on dialogue box collider
     private void OnMouseDown()
     {

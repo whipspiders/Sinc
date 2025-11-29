@@ -1,0 +1,14 @@
+<DialogueData>
+    <DialogueSet id="introduction">
+        <Line speaker="NPC">This is an introduction test line</Line>
+    </DialogueSet>
+
+    <DialogueSet id="post-surgery">
+    <Line speaker=" ">This is a post-surgery test line</Line>
+    </DialogueSet>
+    
+    <DialogueSet id="ending">
+    <Line speaker=" ">An ending dialogue will be here</Line>
+    </DialogueSet>
+
+</DialogueData>
