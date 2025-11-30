@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI blackoutTMPAsset;
     [SerializeField] private SpriteRenderer backgroundDef;
     [SerializeField] private Sprite backgroundEnd;
+    [SerializeField] private AudioSource audioSource;
     private bool waitingForMiniGame = false;
 
     [Header("NPCs")]
@@ -108,8 +109,22 @@ public class GameController : MonoBehaviour
                     dayCounter++;
                     dayCounterTMP.text = "День " + dayCounter;
 
+                    if (dayCounter > 3)
+                    {
+                        audioSource.Stop();
+                        dayCounterTMP.text = "...";
+                        backgroundDef.sprite = backgroundEnd;
+                        yield return dialogueController.TypeLineExternal("...", blackoutTMPAsset);
+                        yield return new WaitForSeconds(2f);
+                        Fade(blackout, 0);
+                        blackoutTMPAsset.text = "";
+                        break;
+                    }
+
                     yield return dialogueController.TypeLineExternal("День " + dayCounter, blackoutTMPAsset);
                     yield return new WaitForSeconds(2f);
+
+
 
                     Fade(blackout, 0);
                     blackoutTMPAsset.text = "";
@@ -179,24 +194,34 @@ public class GameController : MonoBehaviour
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 1, "introduction", npcs[1].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 1, "post-surgery", npcs[1].postSurgerySprite));
+
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "inbeetwin_collector_cyborg", npcs[0].npcSprite, 1f));
+
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 2, "introduction", npcs[2].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 2, "post-surgery", npcs[2].postSurgerySprite));
+
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "inbeetwin_cyborg_bird", npcs[0].npcSprite, 1f));
+
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 3, "introduction", npcs[3].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 3, "post-surgery", npcs[3].postSurgerySprite));
         EnqueueAction(new QueueAction(QueueActionType.NEXT_DAY));
+
+        // EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "after_bird", npcs[0].npcSprite, 1f));
 
         // ---------------- DAY 2 ----------------
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 4, "introduction", npcs[4].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 4, "post-surgery", npcs[4].postSurgerySprite));
 
+        // EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "after_chest", npcs[0].npcSprite, 1f));
+
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 5, "introduction", npcs[5].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 5, "post-surgery", npcs[5].postSurgerySprite));
+
+        EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "inbeetwin_Heart_nanochip", npcs[0].npcSprite, 1f));
 
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 6, "introduction", npcs[6].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
@@ -209,12 +234,20 @@ public class GameController : MonoBehaviour
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 7, "post-surgery", npcs[7].postSurgerySprite));
 
+        // EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "after_implant", npcs[0].npcSprite, 1f));
+
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 8, "introduction", npcs[8].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.START_MINIGAME));
         EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 8, "post-surgery", npcs[8].postSurgerySprite));
 
+        EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 1, "End", npcs[1].npcSprite, 1f));
+
+        // EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "after_centaur", npcs[0].npcSprite, 1f));
+
+        EnqueueAction(new QueueAction(QueueActionType.NEXT_DAY));
+
         // ---------------- END CUTSCENE ----------------
-        EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 1, "ending", npcs[1].npcSprite, 1f));
+        EnqueueAction(new QueueAction(QueueActionType.SPAWN_NPC, 0, "END witch picture", npcs[0].npcSprite, 1f));
         EnqueueAction(new QueueAction(QueueActionType.GAME_END));
     }
     #endregion
@@ -236,6 +269,12 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("MainMenu");
     }
+
+    public virtual void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
     #endregion
-    
+
+
 }

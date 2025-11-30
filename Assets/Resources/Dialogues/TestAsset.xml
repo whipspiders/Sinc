@@ -7,7 +7,7 @@
     <Line speaker="NPC">This is a post-surgery test line</Line>
     </DialogueSet>
     
-    <DialogueSet id="ending">
+    <DialogueSet id="End">
     <Line speaker="COLLECTOR">An ending dialogue will be here</Line>
     </DialogueSet>
 
@@ -15,9 +15,20 @@
     <Line speaker="YOU">Cutscene here</Line>
     </DialogueSet>
 
-        <DialogueSet id="inbeetwin_collector_cyborg">
+    <DialogueSet id="inbeetwin_collector_cyborg">
     <Line speaker="YOU">Cutscene here</Line>
     </DialogueSet>
+
+    
+    <DialogueSet id="inbeetwin_Heart_nanochip">
+    <Line speaker="YOU">Cutscene here</Line>
+    </DialogueSet>
+    
+    <DialogueSet id="END witch picture">
+    <Line speaker="YOU">Ending cutscene</Line>
+    <Line speaker="YOU">yea</Line>
+    </DialogueSet>
+
     
 
 </DialogueData>

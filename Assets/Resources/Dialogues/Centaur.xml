@@ -1,0 +1,46 @@
+<DialogueData>
+
+    <DialogueSet id="introduction">
+        <Line speaker=" ">К вам пришло что-то очень красивое.</Line>
+        <Line speaker="3_)867Ж!6">cFbbj VGtgnnm nj</Line>
+        <Line speaker=" ">Я тебя не понимаю.</Line>
+        <Line speaker=" ">Это ломбард. Ты хочешь что-то продать?</Line>
+        <Line speaker="3_)867Ж!6">Vgb$%68 r46 f</Line>
+        <Line speaker=" ">Честно говоря уже третий день и вам не хватает одной души.</Line>
+        <Line speaker=" ">С минуты на минуту придёт коллектор.</Line>
+        <Line speaker=" ">И имено сейчас к вам приходит клиент не разговаривающий на вашем языке.</Line>
+        <Line speaker=" ">Ну что за подстава.</Line>
+        <Line speaker=" ">...</Line>
+        <Line speaker=" ">В принципе вы можете сделать операцию без разрешения.</Line>
+        <Line speaker=" ">Между этичностью и планетой...</Line>
+        <Line speaker=" ">И домом...</Line>
+        <Line speaker=" ">И многоми многими душами...</Line>
+        <Line speaker=" ">Вы же можете забрать всего одну без спроса да?</Line>
+        <Line speaker=" ">Ничего страшного</Line>
+        <Line speaker=" ">За то вы спасете больше людей.</Line>
+        <Line speaker=" ">Никто не узнает.</Line>
+        <Line speaker=" ">...</Line>
+    </DialogueSet>
+
+
+    <DialogueSet id="post-surgery">
+        <Line speaker=" ">Самая "живая" часть существа это ноги, поэтому вы решаете поменять их.</Line>
+        <Line speaker=" ">Вы были очень напряжены и собрали всю технику которую у себя нашли.</Line>
+        <Line speaker=" ">Остоединив живые ноги вы поняли что повторить адекватный механих ног очень сложно.</Line>
+        <Line speaker=" ">Такая конструкция не сможет выдержать вес тела.</Line>
+        <Line speaker=" ">Поэтому вы сделали две дополнительные конечности, чтобы была поддержка.</Line>
+        <Line speaker=" ">Существо стало походить на кентавра.</Line>
+        <Line speaker=" ">Это даже красиво.</Line>
+        <Line speaker=" ">И к тому же вы собрали седьмую душу.</Line>
+        <Line speaker=" ">Вы довольны собой.</Line>
+        <Line speaker="3_)867Ж!6">? BHyt vbh !!!!!!!!! gtg</Line>
+        <Line speaker=" ">Существо неумело поднялось на ноги.</Line>
+        <Line speaker=" ">Оно выглядело потерянно и испуганно.</Line>
+        <Line speaker=" ">Оно видимо решило как можно скорее от вас убежать, потому что оно ползло к выходу.</Line>
+        <Line speaker=" ">Не то чтобы вы себя оправдавали, но уже около двери оно смогло встать и пойти.</Line>
+        <Line speaker=" ">Ваши муки совести были заменены гордостью проделанной работой.</Line>
+    </DialogueSet>
+
+
+
+</DialogueData>

@@ -105,7 +105,6 @@ public class MiniGameController : MonoBehaviour
         else
         {
             lost.Invoke();
-            End();
         }
     }
 
