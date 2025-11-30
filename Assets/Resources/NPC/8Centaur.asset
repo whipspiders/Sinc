@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: 8Centaur
   m_EditorClassIdentifier: 
   npcSprite: {fileID: 21300000, guid: 2aadcf16f59243b4d80a0fb34399354a, type: 3}
-  postSurgerySprite: {fileID: 21300000, guid: 2aadcf16f59243b4d80a0fb34399354a, type: 3}
+  postSurgerySprite: {fileID: -6687087869477439888, guid: 1e8bc61935421314c9204b3c3735cee2, type: 3}
   dialogueXML: {fileID: 4900000, guid: 75d451a3dd4d9c9458e4ce88b72a1d41, type: 3}

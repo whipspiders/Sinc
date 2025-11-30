@@ -35,6 +35,7 @@ public class Circle : MonoBehaviour
     }
     public void RotateCircle()
     {
+        Debug.Log("circle rotating");
         glowSprite.sprite = glowDef;
         rb.angularVelocity = 3 *  100;
         isMoving = true;

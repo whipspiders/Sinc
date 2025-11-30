@@ -24,16 +24,20 @@ public class MiniGameController : MonoBehaviour
     private bool sliderProgressCooldown;
 
     // 🔥 NEW
-    private bool gameOngoing = false;
+    public bool gameOngoing = false;
 
     void Awake()
     {
-        miniGameContainer.SetActive(false);
+        foreach (Circle circle in circles)
+        {
+            circle.gameObject.SetActive(false);
+        }
+        //miniGameContainer.SetActive(false);
     }
 
-    public void StartGame()
+    public void StartGame(System.Action onComplete = null)
     {
-        gameOngoing = true; // 🔥 Start timer
+        gameOngoing = true;
         onCooldown = false;
         sliderProgressCooldown = false;
 
@@ -41,10 +45,23 @@ public class MiniGameController : MonoBehaviour
         win = false;
 
         progressBar.fillAmount = 0;
-        miniGameContainer.SetActive(true);
+        //miniGameContainer.SetActive(true);
+        miniGameContainer.transform.position = new Vector3(0, 0, 0);
 
         StartCircleGame();
         StartPushGame();
+
+        // Subscribe to won/lost events to trigger callback
+        UnityAction callbackAction = null;
+        callbackAction = () =>
+        {
+            onComplete?.Invoke();
+            won.RemoveListener(callbackAction);
+            lost.RemoveListener(callbackAction);
+        };
+
+        won.AddListener(callbackAction);
+        lost.AddListener(callbackAction);
     }
 
     public virtual void TaskDone(float value = 0.05F)
@@ -124,6 +141,7 @@ public class MiniGameController : MonoBehaviour
     {
         foreach (Circle circle in circles)
         {
+            circle.gameObject.SetActive(true);
             circle.RotateCircle();
         }
     }
@@ -131,11 +149,14 @@ public class MiniGameController : MonoBehaviour
     public void End()
     {
         gameOngoing = false; // 🔥 Stop timer + input
-
-        miniGameContainer.SetActive(false);
+        miniGameContainer.transform.position = new Vector3(50, 0, 0);
+        //miniGameContainer.SetActive(false);
 
         foreach (Circle circle in circles)
+        {
             circle.rb.angularVelocity = 0;
+            circle.gameObject.SetActive(false);
+        }
 
         CancelInvoke();
     }

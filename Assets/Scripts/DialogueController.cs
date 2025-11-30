@@ -1,3 +1,4 @@
+// DialogueController.cs
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,26 +9,28 @@ public class DialogueController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameBox;
     [SerializeField] private TextMeshProUGUI dialogueBox;
-
-    public UnityEvent onDialogueEnd; // GameController listens to this
+    [SerializeField] private AudioClip typingSound;
+    [SerializeField] private AudioSource audioSource;
+    public UnityEvent onDialogueLineComplete; // triggered when line finished typing
+    public UnityEvent onDialogueEnd;          // triggered when all lines finished
 
     private Queue<DialogueLine> dialogueQueue;
     private bool isTyping = false;
     private string currentFullLine = "";
     private Coroutine typingCoroutine;
-
     public float typingSpeed = 0.03f;
 
+    public bool IsTyping => isTyping;
+
+    #region Dialogue Methods
     public void StartDialogue(NPC npc, string setId)
     {
-
-        List<DialogueLine> lines = DialogueParser.ParseDialogue(npc.dialogueXML, setId);
+        var lines = DialogueParser.ParseDialogue(npc.dialogueXML, setId);
         dialogueQueue = new Queue<DialogueLine>(lines);
-
         ShowNextLine();
     }
 
-    public void ShowNextLine()
+    private void ShowNextLine()
     {
         if (dialogueQueue.Count == 0)
         {
@@ -37,7 +40,6 @@ public class DialogueController : MonoBehaviour
 
         DialogueLine line = dialogueQueue.Dequeue();
         nameBox.text = line.speaker;
-
         currentFullLine = line.text;
 
         if (typingCoroutine != null)
@@ -55,11 +57,42 @@ public class DialogueController : MonoBehaviour
         {
             dialogueBox.text += c;
             yield return new WaitForSeconds(typingSpeed);
+            TypingSound();
         }
 
         isTyping = false;
+        onDialogueLineComplete.Invoke();
+
+        
     }
 
+    void TypingSound()
+    {
+                    var audioInstance = Instantiate(audioSource, transform);
+            audioInstance.resource = typingSound;
+            audioInstance.Play();
+    }
+
+    public void CompleteLineInstantly()
+    {
+        if (!isTyping) return;
+
+        StopCoroutine(typingCoroutine);
+        dialogueBox.text = currentFullLine;
+        isTyping = false;
+        onDialogueLineComplete.Invoke();
+    }
+
+    public void AdvanceLine()
+    {
+        if (isTyping)
+            CompleteLineInstantly();
+        else
+            ShowNextLine();
+    }
+    #endregion
+
+    #region External TypeLine
     public IEnumerator TypeLineExternal(string text, TextMeshProUGUI tmpAsset)
     {
         isTyping = true;
@@ -69,31 +102,28 @@ public class DialogueController : MonoBehaviour
         {
             tmpAsset.text += c;
             yield return new WaitForSeconds(typingSpeed);
+            AudioSource.PlayClipAtPoint(typingSound, Vector3.zero, 1.0f);
+            TypingSound();
         }
 
         isTyping = false;
+        onDialogueLineComplete.Invoke();
     }
+    #endregion
 
-    // Clicking anywhere on dialogue box collider
-    private void OnMouseDown()
-    {
-        if (isTyping)
-        {
-            StopCoroutine(typingCoroutine);
-            dialogueBox.text = currentFullLine;
-            isTyping = false;
-        }
-        else
-        {
-            ShowNextLine();
-        }
-    }
-
+    #region End Dialogue
     private void EndDialogue()
     {
         nameBox.text = "";
         dialogueBox.text = "";
-
         onDialogueEnd.Invoke();
     }
+    #endregion
+
+    #region Input Handling
+    private void OnMouseDown()
+    {
+        AdvanceLine();
+    }
+    #endregion
 }

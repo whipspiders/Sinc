@@ -1,27 +1,26 @@
-    using UnityEngine;
-    using UnityEngine.UI;
+// NPCController.cs
+using UnityEngine;
+using UnityEngine.UI;
 
-    public class NPCController : MonoBehaviour
+public class NPCController : MonoBehaviour
+{
+    [SerializeField] private Image npcImage;
+    [SerializeField] private DialogueController dialogueController;
+
+    public void SpawnNPC(NPC npc, string dialogueSet, Sprite overrideSprite = null)
     {
-        [SerializeField] private Image npcImage;
-        [SerializeField] private DialogueController dialogueController;
-
-        public void SpawnNPC(NPC npc, string dialogueSet)
-        {
-            npcImage.gameObject.SetActive(true);
-            npcImage.sprite = npc.npcSprite;
-
-            dialogueController.StartDialogue(npc, dialogueSet);
-        }
-
-        public void DespawnNPC()
-        {
-            npcImage.gameObject.SetActive(false);
-        }
-
-        // NEW — allows GameController to change NPC sprite at any moment
-        public void ChangeNPCSprite(Sprite newSprite)
-        {
-            npcImage.sprite = newSprite;
-        }
+        npcImage.gameObject.SetActive(true);
+        npcImage.sprite = overrideSprite != null ? overrideSprite : npc.npcSprite;
+        dialogueController.StartDialogue(npc, dialogueSet);
     }
+
+    public void DespawnNPC()
+    {
+        npcImage.gameObject.SetActive(false);
+    }
+
+    public void ChangeNPCSprite(Sprite newSprite)
+    {
+        npcImage.sprite = newSprite;
+    }
+}

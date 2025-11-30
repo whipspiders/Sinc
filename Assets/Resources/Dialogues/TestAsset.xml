@@ -4,11 +4,20 @@
     </DialogueSet>
 
     <DialogueSet id="post-surgery">
-    <Line speaker=" ">This is a post-surgery test line</Line>
+    <Line speaker="NPC">This is a post-surgery test line</Line>
     </DialogueSet>
     
     <DialogueSet id="ending">
-    <Line speaker=" ">An ending dialogue will be here</Line>
+    <Line speaker="COLLECTOR">An ending dialogue will be here</Line>
     </DialogueSet>
+
+    <DialogueSet id="inbeetwin_cyborg_bird">
+    <Line speaker="YOU">Cutscene here</Line>
+    </DialogueSet>
+
+        <DialogueSet id="inbeetwin_collector_cyborg">
+    <Line speaker="YOU">Cutscene here</Line>
+    </DialogueSet>
+    
 
 </DialogueData>

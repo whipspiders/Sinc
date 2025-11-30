@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcSprite: {fileID: 21300000, guid: 90afea8b9f712df4c81683001e76b23d, type: 3}
   postSurgerySprite: {fileID: 21300000, guid: da03ae9a167120548941131faa81b4d2, type: 3}
-  dialogueXML: {fileID: 4900000, guid: 1a9e2693717cf4441b6e98ded97c76f4, type: 3}
+  dialogueXML: {fileID: 4900000, guid: 75d451a3dd4d9c9458e4ce88b72a1d41, type: 3}
